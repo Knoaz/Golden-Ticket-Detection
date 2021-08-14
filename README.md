@@ -45,8 +45,24 @@ and their default values are admin or admin groups ids. Tickets that use the def
 name other than "Administrator" have a SID and account name mismatch. This filter detects golden tickets created by entering an 
 arbitrary value on the username. In the PowerShell script below, the sixth line is used to filter events of this type.
 
+The PowerShell script processes the security logs generated in the last fifteen minutes. The three suspicious cases mentioned 
+above are filtered from these logs as "dcSyncEvents", "lowercaseDomainNameEvents" and "idMismatchEvents" respectively. The filtered
+logs are combined in the variable "detectedLogs". If a suspicious event is detected, the detected events are sent as an e-mail.
+This script is scheduled with the task scheduler to run every fifteen minutes on the domain controller.
 
+This script is not signed by a trusted publisher. Therefore, the execution policy must be unrestricted or bypassed to run. 
+Execution policy can be set with Set-ExecutionPolicy cmdlet.
+```powershell
+Set-ExecutionPolicy
+   [-ExecutionPolicy] <ExecutionPolicy>
+   [[-Scope] <ExecutionPolicyScope>]
+   [-Force]
+   [-WhatIf]
+   [-Confirm]
+   [<CommonParameters>]
+   
+Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine
 
-
+```
 
 
